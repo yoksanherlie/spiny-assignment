@@ -1,0 +1,26 @@
+version: '3'
+services:
+  api:
+    build: ./api
+    ports:
+      - 9000:5000
+    volumes:
+      - ./api:/api
+    links:
+      - mongodb
+  mongodb:
+    image: mongo
+    hostname: test_db
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=db
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    ports:
+      - 27017:27017
+  puller:
+    build: ./puller
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./puller:/puller
